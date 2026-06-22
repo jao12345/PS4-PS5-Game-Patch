@@ -5,6 +5,18 @@
         <ID>CUSA03388</ID>
     </TitleID>
     <Metadata Title="Dark Souls III"
+              Name="60 FPS Unlock"
+              Note="Only useful for base console."
+              Author="illusion"
+              PatchVer="1.0"
+              AppVer="01.15"
+              AppElf="eboot.bin">
+        <PatchList>
+            <Line Type="bytes" Address="0x01c0405d" Value="eb0e"/>
+            <Line Type="bytes" Address="0x01c041d6" Value="eb0e"/>
+        </PatchList>
+    </Metadata>
+    <Metadata Title="Dark Souls III"
               Name="Disable Motion Blur"
               Author="illusion"
               PatchVer="1.0"
