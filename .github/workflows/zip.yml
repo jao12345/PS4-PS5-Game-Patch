@@ -105,6 +105,7 @@ jobs:
           mkdir out
           mv patch1 out/patches
           cd out
+          cp -r patches/xml patches/xml_orbis # new patch folder
           zip -r ${{ github.workspace }}/patch1.zip patches/* patches/build.txt patches/misc/patch_ver.txt
           mkdir ../patch1_artifact 
           mv patches ../patch1_artifact/patches
@@ -123,9 +124,7 @@ jobs:
           path: ./*.log
 
       - name: Create Release
-        if: |
-          github.ref_name == 'main' &&
-          github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -143,19 +142,3 @@ jobs:
           echo "" >> $hash_md
           echo "</details>" >> $hash_md
           gh release create "${{ env.current_time }}" "${{ github.workspace }}/patch1.zip" --target "${{ GITHUB.SHA }}" -t "${{ env.current_date }}" -F $hash_md
-
-      - name: Checkout website
-        if: |
-          github.ref_name == 'main' &&
-          github.event_name == 'push'
-        uses: actions/checkout@main
-        with:
-          repository: illusionyy/legacy-website
-
-      - name: Run Website Workflow dispatch
-        if: |
-          github.ref_name == 'main' &&
-          github.event_name == 'push'
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORKFLOW_RUNNER }}
-        run: gh workflow run jekyll.yml
